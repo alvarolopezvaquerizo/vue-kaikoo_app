@@ -7,6 +7,7 @@
       </div>
     </div>
 
+    <Header />
     <Loading />
 
     <div class="row">
@@ -25,6 +26,7 @@
           </tr>
         </thead>
         <tbody>
+          <!--<tr v-for="(player, index) in players" :key="player.name" v-show="(pag - 1) * num_results <= index && pag * num_results > index">-->
           <tr v-for="player in players" :key="player.name">
             <td>{{player.id}}</td>
             <td>{{player.name}}</td>
@@ -33,23 +35,44 @@
             <td>{{player.weight}}</td>
             <td>{{player.height}}</td>
             <td>{{player.hair_color}}</td>
-            <td>{{player.professions}}</td>
-            <td>{{player.friends}}</td>
+            <td>
+              <p v-for="professions in player.professions" :key="professions">{{professions}}</p>
+            </td>
+            <td>
+              <p v-for="friends in player.friends" :key="friends">{{friends}}</p>
+            </td>
           </tr>
         </tbody>
       </table>
+      <!--Controles
+      <nav aria-label="Page navigation" class="text-center">
+        <ul class="pagination text-center">
+          <li>
+            <a href="#" aria-label="Previous" v-show="pag != 1" @click.prevent="pag -= 1">
+              <span aria-hidden="true">Anterior</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" aria-label="Next" v-show="pag * num_results / players.length < 1" @click.prevent="pag += 1">
+              <span aria-hidden="true">Siguiente</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      -->
     </div>
 
   </div>
 </template>
 
 <script>
+import Header from './Header'
 import Loading from './Loading'
 import { computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
-  components: {Loading},
+  components: {Header, Loading},
   setup() {
     const store = useStore()
 
@@ -59,9 +82,9 @@ export default {
 
     onMounted(async() => {
       await store.dispatch('getPlayers')
+      await store.dispatch('filterName', '')
     })
 
-    console.log(players)
     return {players}
   }
 }

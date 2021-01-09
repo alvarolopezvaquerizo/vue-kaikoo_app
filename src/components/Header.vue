@@ -1,7 +1,7 @@
 <template>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">KAIKOO-APP</a>
+            <a class="navbar-brand" href=""><img src="../assets/logo.png" alt="logo" width="30" height="30" class="d-inline-block align-top"> KAIKOO-APP</a>
             <form class="d-flex">
                 <input type="text" class="form-control me-2" placeholder="Search..." v-model="text" @keyup="processInput">
             </form>

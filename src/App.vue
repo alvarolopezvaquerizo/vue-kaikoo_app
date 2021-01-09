@@ -1,6 +1,5 @@
 <template>
   <div class="container-fluid mt-5">
-    <Header />
     <PlayerList />
   </div>
 </template>

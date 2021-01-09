@@ -2,9 +2,10 @@ import { createStore } from 'vuex';
 
 export default createStore({
     state: {
+        num_results: 5,
+        pag: 1,
         players: [],
-        playersFilter: [],
-        loading: true
+        playersFilter: []
     },
     mutations: {
         setPlayers(state, payload) {
@@ -20,11 +21,9 @@ export default createStore({
             try {
                 const res = await fetch('https://raw.githubusercontent.com/GermanRodrickson/gnomeregan/main/data.json');
                 const data = await res.json();
-                commit('setPlayers', data);
+                commit('setPlayers', data.Gnomeregan);
             } catch (error) {
                 console.log(error);
-            } finally {
-                () => this.loading = false
             }
         },
 
@@ -42,7 +41,7 @@ export default createStore({
     },
     getters: {
         listPlayers(state) {
-            return state.players.Gnomeregan;
+            return state.playersFilter;
         }
     },
     modules: {}
