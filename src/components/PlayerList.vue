@@ -1,17 +1,18 @@
 <template>
   <div class="container-fluid">
 
+    <Header />
+
     <div class="row">
       <div class="col-12 mt-3">
         <h1>Player List</h1>
       </div>
     </div>
 
-    <Header />
-    <Loading />
+    <Loading v-if="loading"/>
 
     <div class="row">
-      <table class="table">
+      <table class="table" v-if="!loading">
         <thead>
           <tr>
             <th scope="col">ID</th>
@@ -26,8 +27,7 @@
           </tr>
         </thead>
         <tbody>
-          <!--<tr v-for="(player, index) in players" :key="player.name" v-show="(pag - 1) * num_results <= index && pag * num_results > index">-->
-          <tr v-for="player in players" :key="player.name">
+          <tr v-for="(player, index) in players" :key="player.name" v-show="(page - 1) * num_results <= index && page * num_results > index">
             <td>{{player.id}}</td>
             <td>{{player.name}}</td>
             <td><img :src="player.thumbnail" class="rounded-3 w-25" :alt="`image-${player.thumbnail}`"></td>
@@ -44,22 +44,21 @@
           </tr>
         </tbody>
       </table>
-      <!--Controles
+
+      <!--Card-->
+      
+
       <nav aria-label="Page navigation" class="text-center">
-        <ul class="pagination text-center">
-          <li>
-            <a href="#" aria-label="Previous" v-show="pag != 1" @click.prevent="pag -= 1">
-              <span aria-hidden="true">Anterior</span>
-            </a>
+        <ul class="pagination">
+          <li class="page-item">
+            <a a class="page-link" href="#" v-show="page != 1" @click.prevent="decrementPage">Previous</a>
           </li>
           <li>
-            <a href="#" aria-label="Next" v-show="pag * num_results / players.length < 1" @click.prevent="pag += 1">
-              <span aria-hidden="true">Siguiente</span>
-            </a>
+            <a a class="page-link" href="#" v-show="page * num_results / players.length < 1" @click.prevent="incrementPage">Next</a>
           </li>
         </ul>
       </nav>
-      -->
+      
     </div>
 
   </div>
@@ -74,10 +73,23 @@ import { useStore } from 'vuex'
 export default {
   components: {Header, Loading},
   setup() {
+
     const store = useStore()
 
     const players = computed(() => {
       return store.getters.listPlayers
+    })
+
+    let page = computed(() => {
+      return store.getters.pagination
+    })
+
+    let num_results = computed(() => {
+      return store.getters.limitPagination
+    })
+
+    const loading = computed(() => {
+      return store.getters.loading
     })
 
     onMounted(async() => {
@@ -85,11 +97,30 @@ export default {
       await store.dispatch('filterName', '')
     })
 
-    return {players}
+    return {players, loading, page, num_results}
+
+  },
+  methods: {
+    incrementPage() {
+      this.$store.commit('setIncrementPage');
+    },
+    decrementPage() {
+      this.$store.commit('setDecrementPage');
+    }
   }
 }
 </script>
 
 <style>
-
+.card {
+  display: none;
+}
+@media only screen and (max-width: 768px) {
+  .table {
+    display: none;
+  }
+  .card {
+    display: block;
+  }
+}
 </style>

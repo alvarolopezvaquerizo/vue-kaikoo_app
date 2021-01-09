@@ -5,13 +5,11 @@
 </template>
 
 <script>
-import Header from './components/Header'
 import PlayerList from './components/PlayerList.vue'
 
 export default {
   name: 'App',
   components: {
-    Header,
     PlayerList
   }
 }
