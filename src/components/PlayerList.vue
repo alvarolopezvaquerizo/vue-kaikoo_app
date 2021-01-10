@@ -43,20 +43,24 @@
         </tbody>
       </table>
 
-      <!--Card-->
-      <div class="card" style="width: 18rem;" v-for="(player, index) in players" :key="player.name" v-show="(page - 1) * num_results <= index && page * num_results > index">
-        <img :src="player.thumbnail" class="card-img-top" :alt="`image-${player.thumbnail}`">
+      <div class="card mb-3" v-for="(player, index) in players" :key="player.name" v-show="(page - 1) * num_results <= index && page * num_results > index">
         <div class="card-body">
-          <h5 class="card-title">{{player.name}}</h5>
-          <p class="card-text">{{player.age}}</p>
-          <p class="card-text">{{player.weight}}</p>
-          <p class="card-text">{{player.height}}</p>
-          <p class="card-text">{{player.hair_color}}</p>
-          <p v-for="professions in player.professions" :key="professions">{{professions}}</p>
-          <p v-for="friends in player.friends" :key="friends">{{friends}}</p>
+          <h3 class="text-center mb-3">{{player.name}}</h3>
+          <p class="text-center">
+              <img :src="player.thumbnail" class="img-fluid rounded-3 w-50" :alt="`image-${player.thumbnail}`">
+          </p>
+          <p class="card-text">
+            <span class="badge bg-dark d-block mb-1">Age: {{player.age}}</span>
+            <span class="badge bg-success p-3 d-block mb-1">Weight: {{player.weight}}</span>
+            <span class="badge bg-dark d-block mb-1">Height: {{player.height}}</span>
+            <span class="badge bg-success d-block mb-1">Hair Color: {{player.hair_color}}</span>
+            <span class="badge bg-dark d-block">- Professions -</span>
+            <span class="badge bg-dark d-block" v-for="professions in player.professions" :key="professions">{{professions}}</span>
+            <span class="badge bg-success d-block">- Friends -</span>
+            <span class="badge bg-success d-block" v-for="friends in player.friends" :key="friends">{{friends}}</span>
+          </p>
         </div>
       </div>
-      <!---->
 
       <nav aria-label="Page navigation" class="text-center">
         <ul class="pagination">

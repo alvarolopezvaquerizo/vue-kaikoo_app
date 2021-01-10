@@ -37,7 +37,6 @@ export default createStore({
                 console.log(error);
             }
         },
-
         // SEARCH
         filterName({ commit, state }, text) {
             const customerText = text.toLowerCase();
