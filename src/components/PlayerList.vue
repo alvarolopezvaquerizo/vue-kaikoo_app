@@ -15,7 +15,6 @@
       <table class="table" v-if="!loading">
         <thead>
           <tr>
-            <th scope="col">ID</th>
             <th scope="col">Name</th>
             <th class="w-25" scope="col">Thumbnail</th>
             <th scope="col">Age</th>
@@ -28,7 +27,6 @@
         </thead>
         <tbody>
           <tr v-for="(player, index) in players" :key="player.name" v-show="(page - 1) * num_results <= index && page * num_results > index">
-            <td>{{player.id}}</td>
             <td>{{player.name}}</td>
             <td><img :src="player.thumbnail" class="rounded-3 w-25" :alt="`image-${player.thumbnail}`"></td>
             <td>{{player.age}}</td>
@@ -46,7 +44,19 @@
       </table>
 
       <!--Card-->
-      
+      <div class="card" style="width: 18rem;" v-for="(player, index) in players" :key="player.name" v-show="(page - 1) * num_results <= index && page * num_results > index">
+        <img :src="player.thumbnail" class="card-img-top" :alt="`image-${player.thumbnail}`">
+        <div class="card-body">
+          <h5 class="card-title">{{player.name}}</h5>
+          <p class="card-text">{{player.age}}</p>
+          <p class="card-text">{{player.weight}}</p>
+          <p class="card-text">{{player.height}}</p>
+          <p class="card-text">{{player.hair_color}}</p>
+          <p v-for="professions in player.professions" :key="professions">{{professions}}</p>
+          <p v-for="friends in player.friends" :key="friends">{{friends}}</p>
+        </div>
+      </div>
+      <!---->
 
       <nav aria-label="Page navigation" class="text-center">
         <ul class="pagination">
